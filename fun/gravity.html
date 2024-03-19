@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Gravity</title>
+</head>
+<body style="margin:0;">
+    <svg
+        width="200px"
+        height="200px"
+        viewbox="0 0 2000 2000"
+        style="background-color:aqua;zoom:1;"
+    >
+	<ellipse
+            class="cl"
+            cx="-100"
+            cy="-100"
+            rx="100"
+            fill="blue"
+            style="opacity:0.6;"
+        />
+        <ellipse
+            class="el"
+            cx="1000"
+            cy="1000"
+            rx="300"
+            ry="300"
+            fill="black"
+            onclick="click(event)"
+        />
+        
+    </svg>
+    <h2 class="w" n="0">Wins: 0<h2/>
+    <h2 class="l" n="0">Lose: 0</h2>
+    <h2 class="corx"></h2>
+    <script>
+        var px = 0;
+        var py = 0;
+        
+        
+        function gravi() {
+        
+            var ball = document
+            .querySelector(".el");
+            var nl = document
+            .querySelector(".l");
+             var nw = document
+            .querySelector(".w");
+            
+            py += 3+parseInt(nw
+            .getAttribute("n"))/10-
+            parseInt(nl
+            .getAttribute("n"))/10;
+            if(px<0) {
+                px += 0.5;
+            } else if(px>0) {
+                px -= 0.1;
+            }
+            if(py<-100) {py = -100;}
+            if(px>100) {px = 100;}
+            if(px<-100) {px = -100;}
+            
+            
+            ball
+            .setAttribute("cy",parseFloat(ball
+                .getAttribute("cy"))+py);
+            ball
+            .setAttribute("cx",parseFloat(ball
+                .getAttribute("cx"))+px);
+                
+            if(ball.getAttribute("cy")>2000) {
+                ball.setAttribute("cy",1000);
+                px = 0;
+                py = -30;
+                nl.innerHTML = "Lose: "+
+                (parseInt(nl.getAttribute("n"))+1)
+                nl.setAttribute("n",
+                    parseInt(nl.
+                        getAttribute("n"))+1)
+            }
+            if(ball.getAttribute("cy")<0) {
+                py = 30;
+            }
+            if(ball.getAttribute("cx")>1700) {
+                px = -30;
+            }
+            if(ball.getAttribute("cx")<300) {
+                px = 30;
+            }
+            
+            
+        }
+        
+        function click(e) {
+            var nw = document
+            .querySelector(".w");
+            ball = document
+            .querySelector(".el");
+            ex = e.clientX*10;
+            ey = e.clientY*10;
+            
+            if(ball.getAttribute("cx")<ex) {
+                px = -20;
+            } 
+            if(ball.getAttribute("cx")>ex) {
+                px = 20;
+            }
+            py = -50;
+            
+            nw.innerHTML = "Wins: "+
+                (parseInt(nw.getAttribute("n"))            
+                    +1)
+            
+            nw.setAttribute("n",
+            parseInt(nw.
+            getAttribute("n"))+1)
+            
+            var cl = document
+            .querySelector(".cl");
+            cl.setAttribute("cx",ex);
+            cl.setAttribute("cy",ey);
+        }
+        
+        setInterval(gravi,50);
+        
+    </script>
+    
+    
+    
+    
+    
+</body>
+</html>
